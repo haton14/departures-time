@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  departures-time-api:
+    container_name: departures-time-api
+    build:
+      context: ./departures-time-api
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 8080:80
+    command: sleep infinity
+    working_dir: /go/src/work
+    volumes:
+      - ./departures-time-api:/go/src/work
+    tty: true
+    environment:
+      - NEA_REST_API_PATH=https://station.ic731.net/api/nearest
