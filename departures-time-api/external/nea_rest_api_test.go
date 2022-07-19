@@ -12,7 +12,7 @@ func TestHeartRailsExpressGetNearbyStations(t *testing.T) {
 	tests := map[string]struct {
 		expected []external.NeaRestApiDTO
 	}{
-		"正常: 本物の公開APIにアクセスして期待通りデータが取れる": {
+		"[正常]:本物の公開APIにアクセスして期待通りデータが取れる": {
 			expected: []external.NeaRestApiDTO{
 				{
 					StationName: "大森",
