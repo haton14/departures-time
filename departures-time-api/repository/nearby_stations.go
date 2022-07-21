@@ -13,17 +13,17 @@ type NearbyStations interface {
 }
 
 type nearbyStations struct {
-	heartRailsExpress external.NeaRestApi
+	neaRestApi external.NeaRestApi
 }
 
 func NewNearbyStations(ext external.NeaRestApi) NearbyStations {
 	return nearbyStations{
-		heartRailsExpress: ext,
+		neaRestApi: ext,
 	}
 }
 
 func (n nearbyStations) GetByLongitudeAndLatitudeAndDistance(lo vo.Longitude, la vo.Latitude, distance vo.Distance) ([]model.NearbyStation, error) {
-	datas, err := n.heartRailsExpress.GetNearbyStations(lo, la)
+	datas, err := n.neaRestApi.GetNearbyStations(lo, la)
 	if err != nil {
 		return nil, fmt.Errorf("NeaRestApi.GetNearbyStations() longitude %f latitude %f: %s", lo.Value(), la.Value(), err)
 	}
