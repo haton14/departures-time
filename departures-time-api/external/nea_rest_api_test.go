@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestHeartRailsExpressGetNearbyStations(t *testing.T) {
+func TestNeaRestApiGetNearbyStations(t *testing.T) {
 	tests := map[string]struct {
 		expected []external.NeaRestApiDTO
 	}{
