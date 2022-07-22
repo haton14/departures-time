@@ -131,6 +131,7 @@ func TestNeaRestApiGetNearbyStations(t *testing.T) {
 				t.Fatal(err)
 			}
 			actual, err := e.GetNearbyStations(*lo, *la)
+			assert.NoError(t,err)
 			assert.Equal(t, tt.expected, actual)
 		})
 	}
