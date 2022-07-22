@@ -27,10 +27,6 @@ func TestNewDistanceAndValue(t *testing.T) {
 			arg:    -1,
 			hasErr: vo.ErrMinRange,
 		},
-		"[エラー]:100001": {
-			arg:    100001,
-			hasErr: vo.ErrMaxRange,
-		},
 	}
 
 	for name, tt := range tests {
