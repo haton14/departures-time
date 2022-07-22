@@ -89,6 +89,7 @@ func TestExspertGetByName(t *testing.T) {
 				t.Fatal(err)
 			}
 			actual, err := e.GetByName(*name)
+			assert.NoError(t, err)
 			assert.Equal(t, tt.expected, actual)
 		})
 	}
