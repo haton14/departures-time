@@ -1,6 +1,7 @@
 package model_test
 
 import (
+	"math"
 	"testing"
 
 	"github.com/haton14/departures-time/departures-time-api/domain/model"
@@ -9,27 +10,11 @@ import (
 )
 
 func TestNearbyStationWithinRange(t *testing.T) {
-	name, err := vo.NewStationName("東京")
-	if err != nil {
-		t.Fatal(err)
-	}
-	lo, err := vo.NewLongitude(139.728079)
-	if err != nil {
-		t.Fatal(err)
-	}
-	la, err := vo.NewLatitude(35.601616)
-	if err != nil {
-		t.Fatal(err)
-	}
-	distance, err := vo.NewDistance(3)
-	if err != nil {
-		t.Fatal(err)
-	}
 	nearbyStation := model.NearbyStation{
-		Name:      *name,
-		Longitude: *lo,
-		Latitude:  *la,
-		Distance:  *distance,
+		Name:      "東京",
+		Longitude: 139.728079,
+		Latitude:  35.601616,
+		Distance:  3,
 	}
 	t.Run("駅が範囲内である", func(t *testing.T) {
 		rangeDistance, err := vo.NewDistance(5)
@@ -45,5 +30,18 @@ func TestNearbyStationWithinRange(t *testing.T) {
 		}
 		assert.Equal(t, false, nearbyStation.WithinRange(*rangeDistance))
 	})
+}
+
+func TestNearbyStationDifference(t *testing.T) {
+	nearbyStation := model.NearbyStation{
+		Name:      "東京",
+		Longitude: 139.728079,
+		Latitude:  35.601616,
+		Distance:  3,
+	}
+	xDiff := float64(139.728079) - float64(130.0)
+	yDiff := float64(35.601616) - float64(36.0)
+
+	assert.Equal(t, math.Sqrt(xDiff*xDiff+yDiff*yDiff), nearbyStation.Difference(130, 36))
 
 }
