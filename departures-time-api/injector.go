@@ -11,6 +11,7 @@ import (
 
 type injector struct {
 	nearbyStationsHandler handler.NearbyStations
+	destinationHandler    handler.Destination
 }
 
 func NewInjector() injector {
@@ -21,14 +22,18 @@ func NewInjector() injector {
 	// repository
 	NearbyStationDetailRepository := repository.NewNearbyStationDetail(ExspertExternal)
 	NearbyStationsRepository := repository.NewNearbyStations(NearRestApiExternal)
+	DestinationRepository := repository.NewDestination(ExspertExternal)
 
 	// usecase
 	NearbyStationsUsecase := usecase.NewNearbyStations(NearbyStationsRepository, NearbyStationDetailRepository)
+	DestinationUsecase := usecase.NewDistination(DestinationRepository)
 
 	// handler
 	NearbyStationsHandler := handler.NewNearbyStations(NearbyStationsUsecase)
+	DestinationHandler := handler.NewDestination(DestinationUsecase)
 
 	return injector{
 		nearbyStationsHandler: NearbyStationsHandler,
+		destinationHandler:    DestinationHandler,
 	}
 }
