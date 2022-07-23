@@ -1,6 +1,8 @@
 package response
 
 import (
+	"sort"
+
 	"github.com/haton14/departures-time/departures-time-api/domain/model"
 )
 
@@ -24,6 +26,7 @@ func NewNearbyStationsGet(stations []model.NearbyStation) NearbyStationsGet {
 		}
 		datas = append(datas, data)
 	}
+	sort.Slice(datas, func(i, j int) bool { return datas[i].Distance < datas[j].Distance })
 	return NearbyStationsGet{
 		Stations: datas,
 	}
