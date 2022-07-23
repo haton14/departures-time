@@ -11,9 +11,11 @@ import (
 
 func TestExspertGetByName(t *testing.T) {
 	tests := map[string]struct {
+		arg      vo.StationName
 		expected []external.ExspertDTO
 	}{
-		"[正常]:本物の公開APIにアクセスして期待通りデータが取れる": {
+		"[正常]:本物の公開APIにアクセスして期待通りデータが複数取れる": {
+			arg: "大森",
 			expected: []external.ExspertDTO{
 				{
 					Station: external.ExspertStation{
@@ -77,6 +79,21 @@ func TestExspertGetByName(t *testing.T) {
 				},
 			},
 		},
+		"[正常]:本物の公開APIにアクセスして期待通りデータが1件取れる": {
+			arg: "大森海岸",
+			expected: []external.ExspertDTO{
+				{
+					Station: external.ExspertStation{
+						Code:        "22567",
+						StationName: "大森海岸",
+					},
+					GeoPoint: external.ExspertGeoPoint{
+						Longitude: "139.738666",
+						Latitude:  "35.584444",
+					},
+				},
+			},
+		},
 	}
 
 	for name, tt := range tests {
@@ -84,11 +101,7 @@ func TestExspertGetByName(t *testing.T) {
 			url := "http://api.ekispert.jp/v1/json/station"
 			key := os.Getenv("EKISPERT_API_KEY")
 			e := external.NewExspert(url, key)
-			name, err := vo.NewStationName("大森")
-			if err != nil {
-				t.Fatal(err)
-			}
-			actual, err := e.GetByName(*name)
+			actual, err := e.GetByName(tt.arg)
 			assert.NoError(t, err)
 			assert.Equal(t, tt.expected, actual)
 		})
