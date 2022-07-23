@@ -22,11 +22,11 @@ func TestDestinationGetByName(t *testing.T) {
 		return *sn
 	}
 
-	mockStations := []model.NearbyStation{
+	mockStations := []model.Destination{
 		{Code: "22566", Name: "大森(東京都)", Longitude: 139.728079, Latitude: 35.588903},
 	}
 
-	expected := []model.NearbyStation{
+	expected := []model.Destination{
 		{Code: "22566", Name: "大森(東京都)", Longitude: 139.728079, Latitude: 35.588903},
 	}
 
@@ -45,7 +45,7 @@ func TestDestinationGetByName(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, expected, actual)
 
-		expected := []model.NearbyStation{
+		expected := []model.Destination{
 			{
 				Code:      "22566",
 				Name:      "大森(東京都)",
