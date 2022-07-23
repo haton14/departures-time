@@ -113,7 +113,7 @@ func TestNewNearbyStationsGet(t *testing.T) {
 		// setup
 		c := testHelper.createTestContextBindError(
 			http.MethodPatch,
-			"/v3/settings/shops/reservation-codes",
+			"/v1/nearby-stations",
 			nil,
 		)
 		// check
