@@ -46,6 +46,10 @@ func TestNearbyStationsGetByCoordinateAndDistance(t *testing.T) {
 		{Name: "大森", Longitude: 139.728079, Latitude: 35.588903, Distance: 351},
 	}
 
+	expected := []model.NearbyStation{
+		{Code: "22566", Name: "大森(東京都)", Longitude: 139.728079, Latitude: 35.588903, Distance: 351},
+	}
+
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	nearbyStations := mock_repository.NewMockNearbyStations(ctrl)
@@ -71,13 +75,14 @@ func TestNearbyStationsGetByCoordinateAndDistance(t *testing.T) {
 		u := usecase.NewNearbyStations(nearbyStations, nearbyStationDetail)
 		actual, err := u.GetByCoordinateAndDistance(139.728079, 35.588903, 500)
 		assert.NoError(t, err)
+		assert.Equal(t, expected, actual)
 
 		expected := []model.NearbyStation{
 			{
 				Code:      "22566",
 				Name:      "大森(東京都)",
 				Longitude: 139.728079,
-				Latitude: 35.588903,
+				Latitude:  35.588903,
 				Distance:  351,
 			},
 		}
