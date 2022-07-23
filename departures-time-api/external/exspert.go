@@ -37,6 +37,10 @@ type exspertBindObject struct {
 
 type StationCode string
 
+func (s StationCode) Value() string {
+	return string(s)
+}
+
 type exspert struct {
 	apiPath string
 	apiKey  string
