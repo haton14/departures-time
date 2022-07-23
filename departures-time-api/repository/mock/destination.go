@@ -36,10 +36,10 @@ func (m *MockDestination) EXPECT() *MockDestinationMockRecorder {
 }
 
 // GetByName mocks base method.
-func (m *MockDestination) GetByName(name vo.StationName) ([]model.NearbyStation, error) {
+func (m *MockDestination) GetByName(name vo.StationName) ([]model.Destination, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByName", name)
-	ret0, _ := ret[0].([]model.NearbyStation)
+	ret0, _ := ret[0].([]model.Destination)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

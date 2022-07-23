@@ -10,7 +10,7 @@ import (
 )
 
 type Destination interface {
-	GetByName(name vo.StationName) ([]model.NearbyStation, error)
+	GetByName(name vo.StationName) ([]model.Destination, error)
 }
 
 type destination struct {
@@ -23,14 +23,14 @@ func NewDestination(ext external.Exspert) Destination {
 	}
 }
 
-func (s destination) GetByName(name vo.StationName) ([]model.NearbyStation, error) {
+func (s destination) GetByName(name vo.StationName) ([]model.Destination, error) {
 	datas, err := s.exspert.GetByName(name)
 	if err != nil {
 		return nil, fmt.Errorf("Exspert.GetByName() name %s: %s", name.Value(), err)
 	}
-	models := make([]model.NearbyStation, 0, len(datas))
+	models := make([]model.Destination, 0, len(datas))
 	for _, d := range datas {
-		m, err := s.toNearbyStations(d)
+		m, err := s.toDestination(d)
 		if err != nil {
 			return nil, err
 		}
@@ -39,7 +39,7 @@ func (s destination) GetByName(name vo.StationName) ([]model.NearbyStation, erro
 	return models, nil
 }
 
-func (s destination) toNearbyStations(data external.ExspertDTO) (*model.NearbyStation, error) {
+func (s destination) toDestination(data external.ExspertDTO) (*model.Destination, error) {
 	name, err := vo.NewStationName(data.Station.StationName)
 	if err != nil {
 		return nil, fmt.Errorf("NewStationName(): %s", err)
@@ -60,7 +60,7 @@ func (s destination) toNearbyStations(data external.ExspertDTO) (*model.NearbySt
 	if err != nil {
 		return nil, fmt.Errorf("NewLatitude(): %s", err)
 	}
-	return &model.NearbyStation{
+	return &model.Destination{
 		Code:      data.Station.Code,
 		Name:      *name,
 		Longitude: *lo,

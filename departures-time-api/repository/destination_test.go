@@ -44,11 +44,11 @@ func TestDestinationGetByName(t *testing.T) {
 
 	testsOK := map[string]struct {
 		arg      vo.StationName
-		expected []model.NearbyStation
+		expected []model.Destination
 	}{
 		"[正常]期待通りのデータが取れる": {
 			arg: "大森",
-			expected: []model.NearbyStation{
+			expected: []model.Destination{
 				{Code: "22566", Name: "大森(東京都)", Longitude: 139.731138, Latitude: 35.585139},
 				{Code: "29668", Name: "大森(静岡県)", Longitude: 137.5125, Latitude: 34.734444},
 			},
@@ -143,21 +143,19 @@ func TestDestinationGetByName(t *testing.T) {
 		},
 	}
 
-	ngArg := model.NearbyStation{
-		Name:      "大森",
-		Longitude: 139.728079,
-		Latitude:  35.588903,
+	ngArg, err := vo.NewStationName("大森")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	for name, tt := range testsNG {
 		t.Run(name, func(t *testing.T) {
 			exspert.
 				EXPECT().
-				GetByName(ngArg.Name).
+				GetByName(*ngArg).
 				Return(tt.mockData, nil)
 
-			r := repository.NewNearbyStationDetail(exspert)
-			actual, err := r.GetByNearbyStation(ngArg)
+			r := repository.NewDestination(exspert)
+			actual, err := r.GetByName(*ngArg)
 			assert.Nil(t, actual)
 			assert.Error(t, err)
 		})
@@ -166,10 +164,10 @@ func TestDestinationGetByName(t *testing.T) {
 	t.Run("[エラー]:Exspert.GetByNameでエラー", func(t *testing.T) {
 		exspert.
 			EXPECT().
-			GetByName(ngArg.Name).
+			GetByName(*ngArg).
 			Return(nil, errors.New("other error"))
-		r := repository.NewNearbyStationDetail(exspert)
-		actual, err := r.GetByNearbyStation(ngArg)
+		r := repository.NewDestination(exspert)
+		actual, err := r.GetByName(*ngArg)
 		assert.Nil(t, actual)
 		assert.Error(t, err)
 	})
