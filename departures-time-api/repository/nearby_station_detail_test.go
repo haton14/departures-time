@@ -6,7 +6,6 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/haton14/departures-time/departures-time-api/domain/model"
-	"github.com/haton14/departures-time/departures-time-api/domain/vo"
 	"github.com/haton14/departures-time/departures-time-api/external"
 	mock_external "github.com/haton14/departures-time/departures-time-api/external/mock"
 	"github.com/haton14/departures-time/departures-time-api/repository"
@@ -14,27 +13,7 @@ import (
 )
 
 func TestNearbyStationDetailGetByNearbyStation(t *testing.T) {
-	toLo := func(v float64) vo.Longitude {
-		l, err := vo.NewLongitude(v)
-		if err != nil {
-			t.Fatal(err)
-		}
-		return *l
-	}
-	toLa := func(v float64) vo.Latitude {
-		l, err := vo.NewLatitude(v)
-		if err != nil {
-			t.Fatal(err)
-		}
-		return *l
-	}
-	toName := func(v string) vo.StationName {
-		sn, err := vo.NewStationName(v)
-		if err != nil {
-			t.Fatal(err)
-		}
-		return *sn
-	}
+
 	mockData := []external.ExspertDTO{
 		{
 			Station: external.ExspertStation{
@@ -108,15 +87,15 @@ func TestNearbyStationDetailGetByNearbyStation(t *testing.T) {
 	}{
 		"[正常]期待通りのデータが取れる": {
 			arg: model.NearbyStation{
-				Name:      toName("大森"),
-				Longitude: toLo(139.728079),
-				Latitude:  toLa(35.588903),
+				Name:      "大森",
+				Longitude: 139.728079,
+				Latitude:  35.588903,
 			},
 			expected: &model.NearbyStation{
 				Code:      "22566",
-				Name:      toName("大森(東京都)"),
-				Longitude: toLo(139.731138),
-				Latitude:  toLa(35.585139),
+				Name:      "大森(東京都)",
+				Longitude: 139.731138,
+				Latitude:  35.585139,
 			},
 		},
 	}
@@ -210,9 +189,9 @@ func TestNearbyStationDetailGetByNearbyStation(t *testing.T) {
 	}
 
 	ngArg := model.NearbyStation{
-		Name:      toName("大森"),
-		Longitude: toLo(139.728079),
-		Latitude:  toLa(35.588903),
+		Name:      "大森",
+		Longitude: 139.728079,
+		Latitude:  35.588903,
 	}
 
 	for name, tt := range testsNG {

@@ -14,34 +14,7 @@ import (
 )
 
 func TestNearbyStationsGetByLongitudeAndLatitudeAndDistance(t *testing.T) {
-	toLo := func(v float64) vo.Longitude {
-		l, err := vo.NewLongitude(v)
-		if err != nil {
-			t.Fatal(err)
-		}
-		return *l
-	}
-	toLa := func(v float64) vo.Latitude {
-		l, err := vo.NewLatitude(v)
-		if err != nil {
-			t.Fatal(err)
-		}
-		return *l
-	}
-	toName := func(v string) vo.StationName {
-		sn, err := vo.NewStationName(v)
-		if err != nil {
-			t.Fatal(err)
-		}
-		return *sn
-	}
-	toDistance := func(v int) vo.Distance {
-		d, err := vo.NewDistance(v)
-		if err != nil {
-			t.Fatal(err)
-		}
-		return *d
-	}
+
 	mockData := []external.NeaRestApiDTO{
 		{StationName: "大森", Location: []float64{139.728079, 35.588903}, Distance: 351},
 		{StationName: "大森海岸", Location: []float64{39.73544, 35.587576}, Distance: 879},
@@ -82,24 +55,24 @@ func TestNearbyStationsGetByLongitudeAndLatitudeAndDistance(t *testing.T) {
 		expected []model.NearbyStation
 	}{
 		"[正常]:期待通りデータが取れる 500m": {
-			arg: toDistance(500),
+			arg: 500,
 			expected: []model.NearbyStation{
-				{Name: toName("大森"), Longitude: toLo(139.728079), Latitude: toLa(35.588903), Distance: toDistance(351)},
+				{Name: "大森", Longitude: 139.728079, Latitude: 35.588903, Distance: 351},
 			},
 		},
 		"[正常]:期待通りデータが取れる 2000m": {
-			arg: toDistance(2000),
+			arg: 2000,
 			expected: []model.NearbyStation{
-				{Name: toName("大森"), Longitude: toLo(139.728079), Latitude: toLa(35.588903), Distance: toDistance(351)},
-				{Name: toName("大森海岸"), Longitude: toLo(39.73544), Latitude: toLa(35.587576), Distance: toDistance(879)},
-				{Name: toName("西大井"), Longitude: toLo(39.721729), Latitude: toLa(35.601616), Distance: toDistance(1186)},
-				{Name: toName("立会川"), Longitude: toLo(39.738886), Latitude: toLa(35.598489), Distance: toDistance(1265)},
-				{Name: toName("馬込"), Longitude: toLo(39.711772), Latitude: toLa(35.596435), Distance: toDistance(1499)},
-				{Name: toName("平和島"), Longitude: toLo(39.73491), Latitude: toLa(35.57868), Distance: toDistance(1632)},
-				{Name: toName("大井町"), Longitude: toLo(39.73485), Latitude: toLa(35.606257), Distance: toDistance(1723)},
-				{Name: toName("大井競馬場前"), Longitude: toLo(39.74708), Latitude: toLa(35.595006), Distance: toDistance(1812)},
-				{Name: toName("下神明"), Longitude: toLo(39.726256), Latitude: toLa(35.608704), Distance: toDistance(1861)},
-				{Name: toName("鮫洲"), Longitude: toLo(39.742227), Latitude: toLa(35.604977), Distance: toDistance(1971)},
+				{Name: "大森", Longitude: 139.728079, Latitude: 35.588903, Distance: 351},
+				{Name: "大森海岸", Longitude: 39.73544, Latitude: 35.587576, Distance: 879},
+				{Name: "西大井", Longitude: 39.721729, Latitude: 35.601616, Distance: 1186},
+				{Name: "立会川", Longitude: 39.738886, Latitude: 35.598489, Distance: 1265},
+				{Name: "馬込", Longitude: 39.711772, Latitude: 35.596435, Distance: 1499},
+				{Name: "平和島", Longitude: 39.73491, Latitude: 35.57868, Distance: 1632},
+				{Name: "大井町", Longitude: 39.73485, Latitude: 35.606257, Distance: 1723},
+				{Name: "大井競馬場前", Longitude: 39.74708, Latitude: 35.595006, Distance: 1812},
+				{Name: "下神明", Longitude: 39.726256, Latitude: 35.608704, Distance: 1861},
+				{Name: "鮫洲", Longitude: 39.742227, Latitude: 35.604977, Distance: 1971},
 			},
 		},
 	}
@@ -143,7 +116,7 @@ func TestNearbyStationsGetByLongitudeAndLatitudeAndDistance(t *testing.T) {
 				Return(tt.mockData, nil)
 
 			r := repository.NewNearbyStations(neaRestApi)
-			actual, err := r.GetByLongitudeAndLatitudeAndDistance(*lo, *la, toDistance(500))
+			actual, err := r.GetByLongitudeAndLatitudeAndDistance(*lo, *la, 500)
 			assert.Nil(t, actual)
 			assert.Error(t, err)
 		})
@@ -155,7 +128,7 @@ func TestNearbyStationsGetByLongitudeAndLatitudeAndDistance(t *testing.T) {
 			GetNearbyStations(*lo, *la).
 			Return(nil, errors.New("other error"))
 		r := repository.NewNearbyStations(neaRestApi)
-		actual, err := r.GetByLongitudeAndLatitudeAndDistance(*lo, *la, toDistance(500))
+		actual, err := r.GetByLongitudeAndLatitudeAndDistance(*lo, *la, 500)
 		assert.Nil(t, actual)
 		assert.Error(t, err)
 	})
