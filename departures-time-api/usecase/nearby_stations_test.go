@@ -43,7 +43,7 @@ func TestNearbyStationsGetByCoordinateAndDistance(t *testing.T) {
 	}
 
 	mockStations := []model.NearbyStation{
-		{Name: toName("大森"), Longitude: toLo(139.728079), Latitude: toLa(35.588903), Distance: toDistance(351)},
+		{Name: "大森", Longitude: 139.728079, Latitude: 35.588903, Distance: 351},
 	}
 
 	ctrl := gomock.NewController(t)
@@ -69,16 +69,16 @@ func TestNearbyStationsGetByCoordinateAndDistance(t *testing.T) {
 			After(f)
 
 		u := usecase.NewNearbyStations(nearbyStations, nearbyStationDetail)
-		actual, err := u.GetByCoordinateAndDistance(toLo(139.728079), toLa(35.588903), toDistance(500))
+		actual, err := u.GetByCoordinateAndDistance(139.728079, 35.588903, 500)
 		assert.NoError(t, err)
 
 		expected := []model.NearbyStation{
 			{
 				Code:      "22566",
-				Name:      toName("大森(東京都)"),
-				Longitude: toLo(139.728079),
-				Latitude:  toLa(35.588903),
-				Distance:  toDistance(351),
+				Name:      "大森(東京都)",
+				Longitude: 139.728079,
+				Latitude: 35.588903,
+				Distance:  351,
 			},
 		}
 		assert.Equal(t, expected, actual)
@@ -91,7 +91,7 @@ func TestNearbyStationsGetByCoordinateAndDistance(t *testing.T) {
 			Return(nil, errors.New("other error"))
 
 		u := usecase.NewNearbyStations(nearbyStations, nearbyStationDetail)
-		actual, err := u.GetByCoordinateAndDistance(toLo(139.728079), toLa(35.588903), toDistance(500))
+		actual, err := u.GetByCoordinateAndDistance(139.728079, 35.588903, 500)
 		assert.Error(t, err)
 		assert.Nil(t, actual)
 	})
@@ -109,7 +109,7 @@ func TestNearbyStationsGetByCoordinateAndDistance(t *testing.T) {
 			After(f)
 
 		u := usecase.NewNearbyStations(nearbyStations, nearbyStationDetail)
-		actual, err := u.GetByCoordinateAndDistance(toLo(139.728079), toLa(35.588903), toDistance(500))
+		actual, err := u.GetByCoordinateAndDistance(139.728079, 35.588903, 500)
 		assert.Error(t, err)
 		assert.Nil(t, actual)
 	})

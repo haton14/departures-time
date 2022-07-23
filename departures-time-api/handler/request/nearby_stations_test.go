@@ -5,28 +5,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/haton14/departures-time/departures-time-api/domain/vo"
 	"github.com/haton14/departures-time/departures-time-api/handler/request"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewNearbyStationsGet(t *testing.T) {
-	lo, err := vo.NewLongitude(139.7274062)
-	if err != nil {
-		t.Fatal(err)
-	}
-	la, err := vo.NewLatitude(35.5920096)
-	if err != nil {
-		t.Fatal(err)
-	}
-	distance500, err := vo.NewDistance(500)
-	if err != nil {
-		t.Fatal(err)
-	}
-	distanceMaxInt, err := vo.NewDistance(math.MaxInt)
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	testsOK := map[string]struct {
 		query    map[string]string
@@ -39,9 +22,9 @@ func TestNewNearbyStationsGet(t *testing.T) {
 				"distance":  "500",
 			},
 			expected: &request.NearbyStationsGet{
-				Longitude: *lo,
-				Latitude:  *la,
-				Distance:  *distance500,
+				Longitude: 139.7274062,
+				Latitude:  35.5920096,
+				Distance:  500,
 			},
 		}, "[正常]:経度139.7274062,緯度35.5920096,距離指定なし": {
 			query: map[string]string{
@@ -49,9 +32,9 @@ func TestNewNearbyStationsGet(t *testing.T) {
 				"latitude":  "35.5920096",
 			},
 			expected: &request.NearbyStationsGet{
-				Longitude: *lo,
-				Latitude:  *la,
-				Distance:  *distanceMaxInt,
+				Longitude: 139.7274062,
+				Latitude:  35.5920096,
+				Distance:  math.MaxInt,
 			},
 		},
 	}
