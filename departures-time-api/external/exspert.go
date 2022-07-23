@@ -3,6 +3,7 @@ package external
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -29,9 +30,15 @@ type ExspertGeoPoint struct {
 	Latitude  string `json:"lati_d"`
 }
 
-type exspertBindObject struct {
+type exspertBindObjects struct {
 	ResultSet struct {
 		Point []ExspertDTO `json:"Point"`
+	} `json:"ResultSet"`
+}
+
+type exspertBindObject struct {
+	ResultSet struct {
+		Point ExspertDTO `json:"Point"`
 	} `json:"ResultSet"`
 }
 
@@ -64,12 +71,12 @@ func (e exspert) GetByName(name vo.StationName) ([]ExspertDTO, error) {
 	u.RawQuery = q.Encode()
 	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("NewRequest(): %s", err)
 	}
 	client := new(http.Client)
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Client.Do(): %s", err)
 	}
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New("通信失敗")
@@ -77,11 +84,15 @@ func (e exspert) GetByName(name vo.StationName) ([]ExspertDTO, error) {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("ReadAll(): %s", err)
 	}
-	var bindObject exspertBindObject
-	if err = json.Unmarshal(body, &bindObject); err != nil {
-		return nil, err
+	bindObjects := &exspertBindObjects{}
+	if err = json.Unmarshal(body, bindObjects); err != nil {
+		bindObject := &exspertBindObject{}
+		if err = json.Unmarshal(body, bindObject); err != nil {
+			return nil, fmt.Errorf("Unmarshal(): %s", err)
+		}
+		return []ExspertDTO{bindObject.ResultSet.Point}, nil
 	}
-	return bindObject.ResultSet.Point, nil
+	return bindObjects.ResultSet.Point, nil
 }
