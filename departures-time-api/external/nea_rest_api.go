@@ -43,12 +43,12 @@ func (h neaRestApi) GetNearbyStations(lo vo.Longitude, la vo.Latitude) ([]NeaRes
 	u.RawQuery = q.Encode()
 	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("NewRequest(): %s", err)
 	}
 	client := new(http.Client)
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Client.Do(): %s", err)
 	}
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New("通信失敗")
@@ -56,11 +56,11 @@ func (h neaRestApi) GetNearbyStations(lo vo.Longitude, la vo.Latitude) ([]NeaRes
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("ReadAll(): %s", err)
 	}
 	var bindObject neaRestApiBindObject
 	if err = json.Unmarshal(body, &bindObject); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Unmarshal(): %s", err)
 	}
 	return bindObject.Data, nil
 }
