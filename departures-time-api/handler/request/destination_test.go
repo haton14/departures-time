@@ -14,7 +14,7 @@ func TestNewDestinationGet(t *testing.T) {
 		// setup
 		c := testHelper.createTestContext(
 			http.MethodGet,
-			"/v1/destination",
+			"/v1/destinations",
 			map[string]string{
 				"name": "大森",
 			},
@@ -47,7 +47,7 @@ func TestNewDestinationGet(t *testing.T) {
 			// setup
 			c := testHelper.createTestContext(
 				http.MethodGet,
-				"/v1/destination",
+				"/v1/destinations",
 				tt.query,
 			)
 
@@ -62,7 +62,7 @@ func TestNewDestinationGet(t *testing.T) {
 		// setup
 		c := testHelper.createTestContextBindError(
 			http.MethodPatch,
-			"/v1/destination",
+			"/v1/destinations",
 			nil,
 		)
 		// check

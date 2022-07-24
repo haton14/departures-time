@@ -18,7 +18,7 @@ func main() {
 	// routers
 	v1 := e.Group("v1")
 	v1.GET("/nearby-stations", injector.nearbyStationsHandler.Get)
-	v1.GET("/destination", injector.destinationHandler.Get)
+	v1.GET("/destinations", injector.destinationHandler.Get)
 	v1.GET("/routes", injector.routeHandler.Get)
 
 	port := os.Getenv("PORT")
