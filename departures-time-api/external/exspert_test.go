@@ -94,10 +94,6 @@ func TestExspertGetByName(t *testing.T) {
 				},
 			},
 		},
-		"[正常]:本物の公開APIにアクセスしてデタラメな名前だとがnilになる": {
-			arg:      "大森海岸XYZ",
-			expected: nil,
-		},
 	}
 
 	for name, tt := range tests {
@@ -110,4 +106,13 @@ func TestExspertGetByName(t *testing.T) {
 			assert.Equal(t, tt.expected, actual)
 		})
 	}
+
+	t.Run("[エラー]:本物の公開APIにアクセスしてデタラメなErrNotFoundで返ってくる", func(t *testing.T) {
+		url := "http://api.ekispert.jp/v1/json/station"
+		key := os.Getenv("EKISPERT_API_KEY")
+		e := external.NewExspert(url, key)
+		actual, err := e.GetByName("大森海岸XYZ")
+		assert.ErrorIs(t, err, vo.ErrNotFound)
+		assert.Nil(t, actual)
+	})
 }

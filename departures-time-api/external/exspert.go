@@ -94,5 +94,8 @@ func (e exspert) GetByName(name vo.StationName) ([]ExspertDTO, error) {
 		}
 		return []ExspertDTO{bindObject.ResultSet.Point}, nil
 	}
+	if bindObjects.ResultSet.Point == nil {
+		return nil, vo.ErrNotFound
+	}
 	return bindObjects.ResultSet.Point, nil
 }
