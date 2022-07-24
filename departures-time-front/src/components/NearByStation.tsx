@@ -38,8 +38,8 @@ const NearByStationComponent = (/*props: NearByStationProps*/) => {
   return (
   <select>
     {nearByStations.map((station) =>(
-      <option key={station.code} value={station.name}>
-        {station.name}
+      <option key={station.code} value={station.code}>
+        {station.name} {station.distance}m
       </option>
     ))}
   </select>
