@@ -25,7 +25,7 @@ func NewDestinationGet(c echo.Context) (*DestinationGet, error) {
 	}
 	name, err := vo.NewStationName(*bindObject.Name)
 	if err != nil {
-		return nil, fmt.Errorf("NewStationName() Name %s: %s", *bindObject.Name, err)
+		return nil, fmt.Errorf("NewStationName() Name %s: %w", *bindObject.Name, err)
 	}
 
 	return &DestinationGet{
