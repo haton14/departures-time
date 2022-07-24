@@ -1,11 +1,9 @@
-import NearByStationComponent from './components/NearByStation';
-import DestinationComponent from './components/Destination';
+import RouteComponent from './components/Route';
 
 const App = () => {
   return (
     <>
-      <NearByStationComponent />
-      <DestinationComponent />
+      <RouteComponent />
     </>
   );
 };

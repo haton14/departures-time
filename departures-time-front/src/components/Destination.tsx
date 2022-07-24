@@ -1,13 +1,13 @@
-// interface NearByStationProps {
-//   value?: string | null;
-//   onClick: () => void;
-// }
 import { useState } from 'react';
 import type { Destination } from '../api/api';
 import {StationApi} from'../api/api';
 
 
-const DestinationComponent = (/*props: NearByStationProps*/) => {
+interface DestinationProps {
+  onChange: (e:any) => void;
+}
+
+const DestinationComponent = (props: DestinationProps) => {
 
   const [destinations,setDestinations]=useState<Destination[]>([]);
   const [name, setName] = useState<string>('');
@@ -38,9 +38,9 @@ const DestinationComponent = (/*props: NearByStationProps*/) => {
     );
   }
   return (
-  <select>
+  <select onChange={props.onChange}>
     {destinations.map((station) =>(
-      <option key={station.code} value={station.name}>
+      <option key={station.code} value={station.code}>
         {station.name}
       </option>
     ))}

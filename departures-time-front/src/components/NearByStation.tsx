@@ -1,13 +1,13 @@
-// interface NearByStationProps {
-//   value?: string | null;
-//   onClick: () => void;
-// }
 import { useState } from 'react';
 import type { NearByStation } from '../api/api';
 import {StationApi} from'../api/api';
 
+interface NearByStationProps {
+  onChange: (e:any) => void;
+}
 
-const NearByStationComponent = (/*props: NearByStationProps*/) => {
+
+const NearByStationComponent = (props: NearByStationProps) => {
 
   const [nearByStations,setNearByStations]=useState<NearByStation[]>([]);
 
@@ -22,10 +22,12 @@ const NearByStationComponent = (/*props: NearByStationProps*/) => {
     if (s !== undefined) {
       const api=new StationApi()
       const stations=await api.getV1NearbyStations(s.coords.longitude,s.coords.latitude)
+      if (stations.status!==200){
+        // エラー処理は省略
+        return
+      }
       setNearByStations(stations.data.stations)
-      console.log(nearByStations)
     }
-
   };
 
   if (nearByStations.length===0) {
@@ -36,7 +38,7 @@ const NearByStationComponent = (/*props: NearByStationProps*/) => {
     );
   }
   return (
-  <select>
+  <select onChange={props.onChange}>
     {nearByStations.map((station) =>(
       <option key={station.code} value={station.code}>
         {station.name} {station.distance}m
