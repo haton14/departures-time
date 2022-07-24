@@ -8,4 +8,5 @@ var (
 	ErrMaxLength = errors.New("最大長より長い")
 	ErrMinLength = errors.New("最小長より短い")
 	ErrOther     = errors.New("予期しないエラー")
+	ErrNotFound  = errors.New("データが1件も見つからない")
 )

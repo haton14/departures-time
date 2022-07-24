@@ -3,7 +3,6 @@ package external_test
 import (
 	"testing"
 
-	"github.com/haton14/departures-time/departures-time-api/domain/vo"
 	"github.com/haton14/departures-time/departures-time-api/external"
 	"github.com/stretchr/testify/assert"
 )
@@ -122,16 +121,9 @@ func TestNeaRestApiGetNearbyStations(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			url := "https://station.ic731.net/api/nearest"
 			e := external.NewNeaRestApi(url)
-			lo, err := vo.NewLongitude(139.7274062)
-			if err != nil {
-				t.Fatal(err)
-			}
-			la, err := vo.NewLatitude(35.5920096)
-			if err != nil {
-				t.Fatal(err)
-			}
-			actual, err := e.GetNearbyStations(*lo, *la)
-			assert.NoError(t,err)
+
+			actual, err := e.GetNearbyStations(139.7274062, 35.5920096)
+			assert.NoError(t, err)
 			assert.Equal(t, tt.expected, actual)
 		})
 	}
