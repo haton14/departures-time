@@ -42,7 +42,7 @@ func (s destination) GetByName(name vo.StationName) ([]model.Destination, error)
 func (s destination) toDestination(data external.ExspertDTO) (*model.Destination, error) {
 	name, err := vo.NewStationName(data.Station.StationName)
 	if err != nil {
-		return nil, fmt.Errorf("NewStationName(): %s", err)
+		return nil, fmt.Errorf("NewStationName(): %w", err)
 	}
 	flo, err := strconv.ParseFloat(data.GeoPoint.Longitude, 64)
 	if err != nil {
@@ -50,7 +50,7 @@ func (s destination) toDestination(data external.ExspertDTO) (*model.Destination
 	}
 	lo, err := vo.NewLongitude(flo)
 	if err != nil {
-		return nil, fmt.Errorf("NewLongitude(): %s", err)
+		return nil, fmt.Errorf("NewLongitude(): %w", err)
 	}
 	fla, err := strconv.ParseFloat(data.GeoPoint.Latitude, 64)
 	if err != nil {
@@ -58,7 +58,7 @@ func (s destination) toDestination(data external.ExspertDTO) (*model.Destination
 	}
 	la, err := vo.NewLatitude(fla)
 	if err != nil {
-		return nil, fmt.Errorf("NewLatitude(): %s", err)
+		return nil, fmt.Errorf("NewLatitude(): %w", err)
 	}
 	return &model.Destination{
 		Code:      data.Station.Code,

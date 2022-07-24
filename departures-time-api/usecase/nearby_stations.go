@@ -27,12 +27,12 @@ func NewNearbyStations(ns repository.NearbyStations, nsd repository.NearbyStatio
 func (n nearbyStations) GetByCoordinateAndDistance(lo vo.Longitude, la vo.Latitude, distance vo.Distance) ([]model.NearbyStation, error) {
 	staions, err := n.nearbyStations.GetByLongitudeAndLatitudeAndDistance(lo, la, distance)
 	if err != nil {
-		return nil, fmt.Errorf("NearbyStations.GetByLongitudeAndLatitudeAndDistance() lo %f la %f distance %d: %s", lo.Value(), la.Value(), distance.Value(), err)
+		return nil, fmt.Errorf("NearbyStations.GetByLongitudeAndLatitudeAndDistance() lo %f la %f distance %d: %w", lo.Value(), la.Value(), distance.Value(), err)
 	}
 	for i, s := range staions {
 		detail, err := n.nearbyStationDetail.GetByNearbyStation(s)
 		if err != nil {
-			return nil, fmt.Errorf("NearbyStationDetail.GetByNearbyStation(): %s", err)
+			return nil, fmt.Errorf("NearbyStationDetail.GetByNearbyStation(): %w", err)
 		}
 		s.Code = detail.Code
 		s.Name = detail.Name

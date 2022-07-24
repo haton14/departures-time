@@ -23,10 +23,10 @@ type nearbyStationsGetBindObject struct {
 func NewNearbyStationsGet(c echo.Context) (*NearbyStationsGet, error) {
 	bindObject := &nearbyStationsGetBindObject{}
 	if err := c.Bind(bindObject); err != nil {
-		return nil, fmt.Errorf("echo.Context.Bind(): %s", err)
+		return nil, fmt.Errorf("echo.Context.Bind(): %w", err)
 	}
 	if err := c.Validate(bindObject); err != nil {
-		return nil, fmt.Errorf("echo.Context.Validate(): %s", err)
+		return nil, fmt.Errorf("echo.Context.Validate(): %w", err)
 	}
 	lo, err := vo.NewLongitude(*bindObject.Longitude)
 	if err != nil {

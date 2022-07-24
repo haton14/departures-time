@@ -71,12 +71,12 @@ func (e exspert) GetByName(name vo.StationName) ([]ExspertDTO, error) {
 	u.RawQuery = q.Encode()
 	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
 	if err != nil {
-		return nil, fmt.Errorf("NewRequest(): %s", err)
+		return nil, fmt.Errorf("NewRequest(): %w", err)
 	}
 	client := new(http.Client)
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("Client.Do(): %s", err)
+		return nil, fmt.Errorf("Client.Do(): %w", err)
 	}
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New("通信失敗")
@@ -84,13 +84,13 @@ func (e exspert) GetByName(name vo.StationName) ([]ExspertDTO, error) {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("ReadAll(): %s", err)
+		return nil, fmt.Errorf("ReadAll(): %w", err)
 	}
 	bindObjects := &exspertBindObjects{}
 	if err = json.Unmarshal(body, bindObjects); err != nil {
 		bindObject := &exspertBindObject{}
 		if err = json.Unmarshal(body, bindObject); err != nil {
-			return nil, fmt.Errorf("Unmarshal(): %s", err)
+			return nil, fmt.Errorf("Unmarshal(): %w", err)
 		}
 		return []ExspertDTO{bindObject.ResultSet.Point}, nil
 	}

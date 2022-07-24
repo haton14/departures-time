@@ -18,10 +18,10 @@ type destinationGetBindObject struct {
 func NewDestinationGet(c echo.Context) (*DestinationGet, error) {
 	bindObject := &destinationGetBindObject{}
 	if err := c.Bind(bindObject); err != nil {
-		return nil, fmt.Errorf("echo.Context.Bind(): %s", err)
+		return nil, fmt.Errorf("echo.Context.Bind(): %w", err)
 	}
 	if err := c.Validate(bindObject); err != nil {
-		return nil, fmt.Errorf("echo.Context.Validate(): %s", err)
+		return nil, fmt.Errorf("echo.Context.Validate(): %w", err)
 	}
 	name, err := vo.NewStationName(*bindObject.Name)
 	if err != nil {

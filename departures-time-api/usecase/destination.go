@@ -23,7 +23,7 @@ func NewDistination(d repository.Destination) Destination {
 func (d destination) GetByName(name vo.StationName) ([]model.Destination, error) {
 	destinations, err := d.destinationRepository.GetByName(name)
 	if err != nil {
-		return nil, fmt.Errorf("Destination.GetByName(): %s", err)
+		return nil, fmt.Errorf("Destination.GetByName(): %w", err)
 	}
 	return destinations, nil
 }
