@@ -1,0 +1,310 @@
+openapi: 3.1.0
+info:
+  title: departures-time
+  version: '1.0'
+  contact:
+    name: takumi.iioka
+    email: iioka.takumi.quena@gmail.com
+    url: 'https://github.com/haton14'
+  description: 現在地から最寄駅を取得し、目的地駅を名前から決めて経路検索を行うAPI
+  summary: departures-time-api
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /v1/nearby-stations:
+    get:
+      summary: 最寄駅一覧
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NearByStationsGet'
+              examples:
+                example:
+                  value:
+                    stations:
+                      - code: '22566'
+                        name: 大森(東京都)
+                        distance: 351
+                      - code: '22567'
+                        name: 大森海岸
+                        distance: 879
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  value:
+                    message: リクエストが不正
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  value:
+                    message: サーバ内のエラー
+      operationId: get-v1-nearby-stations
+      description: 最大20件まで返す
+      parameters:
+        - $ref: '#/components/parameters/Longitude'
+        - $ref: '#/components/parameters/Latitude'
+        - $ref: '#/components/parameters/Distance'
+      tags:
+        - Exspert
+        - NeaRest
+  /v1/destinations:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Exspert
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DestinationsGet'
+              examples:
+                example:
+                  value:
+                    stations:
+                      - code: '22566'
+                        name: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  value:
+                    message: リクエストが不正
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  value:
+                    message: 検索結果が0件
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  value:
+                    message: サーバ内のエラー
+      operationId: get-v1-destinations
+      parameters:
+        - $ref: '#/components/parameters/Name'
+      description: 指定した名前で候補駅が見つかれば結果を返す
+  /v1/routes:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Exspert
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutesGet'
+              examples:
+                example:
+                  value:
+                    url: 'https://roote.ekispert.net/result?arr=%E5%A4%A7%E6%A3%AE%E6%B5%B7%E5%B2%B8&arr_code=22567&connect=true&dep=%E5%A4%A7%E6%A3%AE(%E6%9D%B1%E4%BA%AC%E9%83%BD)&dep_code=22566&express=true&highway=true&hour&liner=true&local=true&minute&plane=true&shinkansen=true&ship=true&sleep=false&sort=time&surcharge=3&type=dep&via1=&via1_code=&via2=&via2_code='
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  value:
+                    message: リクエストが不正
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  value:
+                    message: サーバ内のエラー
+      operationId: get-v1-routes
+      parameters:
+        - $ref: '#/components/parameters/From'
+        - $ref: '#/components/parameters/To'
+      description: 駅すぱあとの駅コードを指定して、探索結果を表示するURLを返す
+components:
+  schemas:
+    ErrorResponse:
+      title: ErrorResponse
+      x-stoplight:
+        id: tddkpa5pjev7p
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+      description: エラー時のレスポンス形式
+    NearByStationsGet:
+      title: NearByStationsGet
+      x-stoplight:
+        id: k2buufchpf5yb
+      type: object
+      properties:
+        stations:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearByStation'
+      required:
+        - stations
+      description: 最寄駅一覧取得のレスポンス
+    NearByStation:
+      title: NearByStation
+      x-stoplight:
+        id: f0pobnk85yjnx
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/Code'
+        name:
+          $ref: '#/components/schemas/Name'
+        distance:
+          $ref: '#/components/schemas/Distance'
+      required:
+        - code
+        - name
+      description: 最寄駅
+    DestinationsGet:
+      title: DestinationsGet
+      x-stoplight:
+        id: 6nfhneri809v3
+      type: object
+      description: 目的地駅一覧取得のレスポンス
+      properties:
+        stations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Destination'
+      required:
+        - stations
+    Destination:
+      title: Destination
+      x-stoplight:
+        id: 0zhbszljl2cpo
+      type: object
+      description: 目的地駅
+      properties:
+        code:
+          $ref: '#/components/schemas/Code'
+        name:
+          $ref: '#/components/schemas/Name'
+      required:
+        - code
+        - name
+    RoutesGet:
+      title: RoutesGet
+      x-stoplight:
+        id: egeinins1j55o
+      type: object
+      description: 経路検索結果のレスポンス
+      properties:
+        url:
+          type: string
+      required:
+        - url
+    Code:
+      type: string
+      title: Code
+      x-stoplight:
+        id: cjtt3ftmgysyc
+      description: 駅すぱあとWebサービスの駅コード
+      minLength: 1
+    Name:
+      type: string
+      title: Name
+      x-stoplight:
+        id: r6kk4cocqcrrb
+      description: 駅名
+      minLength: 1
+    Distance:
+      type: integer
+      title: Distance
+      x-stoplight:
+        id: vylmth6hobdaj
+      description: 現在地から最寄駅の距離
+      minimum: 0
+  parameters:
+    Longitude:
+      name: longitude
+      in: query
+      required: true
+      schema:
+        type: number
+        minimum: -180
+        maximum: 180
+      description: 経度
+    Latitude:
+      name: latitude
+      in: query
+      required: true
+      schema:
+        type: number
+        minimum: -180
+        maximum: 180
+      description: 緯度
+    Distance:
+      name: distance
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+      description: 現在地から最寄駅までの距離
+    Name:
+      name: name
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      description: 駅名
+    From:
+      name: from
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      description: '出発駅:駅すぱあとWebサービスの駅コード'
+    To:
+      name: to
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 1
+      description: '目的駅:駅すぱあとWebサービスの駅コード'
+tags:
+  - name: Exspert
+  - name: NeaRest
