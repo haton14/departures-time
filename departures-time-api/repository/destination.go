@@ -26,7 +26,7 @@ func NewDestination(ext external.Exspert) Destination {
 func (s destination) GetByName(name vo.StationName) ([]model.Destination, error) {
 	datas, err := s.exspert.GetByName(name)
 	if err != nil {
-		return nil, fmt.Errorf("Exspert.GetByName() name %s: %s", name.Value(), err)
+		return nil, fmt.Errorf("Exspert.GetByName() name %s: %w", name.Value(), err)
 	}
 	models := make([]model.Destination, 0, len(datas))
 	for _, d := range datas {
@@ -46,7 +46,7 @@ func (s destination) toDestination(data external.ExspertDTO) (*model.Destination
 	}
 	flo, err := strconv.ParseFloat(data.GeoPoint.Longitude, 64)
 	if err != nil {
-		return nil, fmt.Errorf("strconv.ParseFloat() Longitude %s: %s", data.GeoPoint.Longitude, err)
+		return nil, fmt.Errorf("strconv.ParseFloat() Longitude %s: %w", data.GeoPoint.Longitude, err)
 	}
 	lo, err := vo.NewLongitude(flo)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s destination) toDestination(data external.ExspertDTO) (*model.Destination
 	}
 	fla, err := strconv.ParseFloat(data.GeoPoint.Latitude, 64)
 	if err != nil {
-		return nil, fmt.Errorf("strconv.ParseFloat() Latitude %s: %s", data.GeoPoint.Latitude, err)
+		return nil, fmt.Errorf("strconv.ParseFloat() Latitude %s: %w", data.GeoPoint.Latitude, err)
 	}
 	la, err := vo.NewLatitude(fla)
 	if err != nil {

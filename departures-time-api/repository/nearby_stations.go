@@ -25,7 +25,7 @@ func NewNearbyStations(ext external.NeaRestApi) NearbyStations {
 func (n nearbyStations) GetByLongitudeAndLatitudeAndDistance(lo vo.Longitude, la vo.Latitude, distance vo.Distance) ([]model.NearbyStation, error) {
 	datas, err := n.neaRestApi.GetNearbyStations(lo, la)
 	if err != nil {
-		return nil, fmt.Errorf("NeaRestApi.GetNearbyStations() longitude %f latitude %f: %s", lo.Value(), la.Value(), err)
+		return nil, fmt.Errorf("NeaRestApi.GetNearbyStations() longitude %f latitude %f: %w", lo.Value(), la.Value(), err)
 	}
 
 	models := make([]model.NearbyStation, 0, len(datas))

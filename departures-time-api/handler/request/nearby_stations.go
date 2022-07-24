@@ -30,11 +30,11 @@ func NewNearbyStationsGet(c echo.Context) (*NearbyStationsGet, error) {
 	}
 	lo, err := vo.NewLongitude(*bindObject.Longitude)
 	if err != nil {
-		return nil, fmt.Errorf("NewLongitude() Longitude %f: %s", *bindObject.Longitude, err)
+		return nil, fmt.Errorf("NewLongitude() Longitude %f: %w", *bindObject.Longitude, err)
 	}
 	la, err := vo.NewLatitude(*bindObject.Latitude)
 	if err != nil {
-		return nil, fmt.Errorf("NewLatitude() Latitude %f: %s", *bindObject.Latitude, err)
+		return nil, fmt.Errorf("NewLatitude() Latitude %f: %w", *bindObject.Latitude, err)
 	}
 	if bindObject.Distance == nil {
 		intMax := math.MaxInt
@@ -42,7 +42,7 @@ func NewNearbyStationsGet(c echo.Context) (*NearbyStationsGet, error) {
 	}
 	distance, err := vo.NewDistance(*bindObject.Distance)
 	if err != nil {
-		return nil, fmt.Errorf("NewDistance() Distance %d: %s", *bindObject.Distance, err)
+		return nil, fmt.Errorf("NewDistance() Distance %d: %w", *bindObject.Distance, err)
 	}
 
 	return &NearbyStationsGet{
