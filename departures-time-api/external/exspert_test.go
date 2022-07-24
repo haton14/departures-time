@@ -94,6 +94,10 @@ func TestExspertGetByName(t *testing.T) {
 				},
 			},
 		},
+		"[正常]:本物の公開APIにアクセスしてデタラメな名前だとがnilになる": {
+			arg:      "大森海岸XYZ",
+			expected: nil,
+		},
 	}
 
 	for name, tt := range tests {
