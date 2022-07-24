@@ -46,19 +46,19 @@ func (n nearbyStations) GetByLongitudeAndLatitudeAndDistance(lo vo.Longitude, la
 func (n nearbyStations) toNearbyStations(data external.NeaRestApiDTO) (*model.NearbyStation, error) {
 	name, err := vo.NewStationName(data.StationName)
 	if err != nil {
-		return nil, fmt.Errorf("NewStationName(): %s", err)
+		return nil, fmt.Errorf("NewStationName(): %w", err)
 	}
 	lo, err := vo.NewLongitude(data.Location[0])
 	if err != nil {
-		return nil, fmt.Errorf("NewLongitude(): %s", err)
+		return nil, fmt.Errorf("NewLongitude(): %w", err)
 	}
 	la, err := vo.NewLatitude(data.Location[1])
 	if err != nil {
-		return nil, fmt.Errorf("NewLatitude(): %s", err)
+		return nil, fmt.Errorf("NewLatitude(): %w", err)
 	}
 	distance, err := vo.NewDistance(data.Distance)
 	if err != nil {
-		return nil, fmt.Errorf("NewDistance(): %s", err)
+		return nil, fmt.Errorf("NewDistance(): %w", err)
 	}
 	return &model.NearbyStation{
 		Name:      *name,

@@ -49,7 +49,7 @@ func (s nearbyStationDetail) GetByNearbyStation(station model.NearbyStation) (*m
 func (s nearbyStationDetail) toNearbyStations(data external.ExspertDTO) (*model.NearbyStation, error) {
 	name, err := vo.NewStationName(data.Station.StationName)
 	if err != nil {
-		return nil, fmt.Errorf("NewStationName(): %s", err)
+		return nil, fmt.Errorf("NewStationName(): %w", err)
 	}
 	flo, err := strconv.ParseFloat(data.GeoPoint.Longitude, 64)
 	if err != nil {
@@ -57,7 +57,7 @@ func (s nearbyStationDetail) toNearbyStations(data external.ExspertDTO) (*model.
 	}
 	lo, err := vo.NewLongitude(flo)
 	if err != nil {
-		return nil, fmt.Errorf("NewLongitude(): %s", err)
+		return nil, fmt.Errorf("NewLongitude(): %w", err)
 	}
 	fla, err := strconv.ParseFloat(data.GeoPoint.Latitude, 64)
 	if err != nil {
@@ -65,7 +65,7 @@ func (s nearbyStationDetail) toNearbyStations(data external.ExspertDTO) (*model.
 	}
 	la, err := vo.NewLatitude(fla)
 	if err != nil {
-		return nil, fmt.Errorf("NewLatitude(): %s", err)
+		return nil, fmt.Errorf("NewLatitude(): %w", err)
 	}
 	return &model.NearbyStation{
 		Code:      data.Station.Code,
