@@ -98,7 +98,7 @@ func TestExspertGetByName(t *testing.T) {
 
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
-			url := "http://api.ekispert.jp/v1/json/station"
+			url := "http://api.ekispert.jp/v1/json"
 			key := os.Getenv("EKISPERT_API_KEY")
 			e := external.NewExspert(url, key)
 			actual, err := e.GetByName(tt.arg)
@@ -108,11 +108,32 @@ func TestExspertGetByName(t *testing.T) {
 	}
 
 	t.Run("[エラー]:本物の公開APIにアクセスしてデタラメなErrNotFoundで返ってくる", func(t *testing.T) {
-		url := "http://api.ekispert.jp/v1/json/station"
+		url := "http://api.ekispert.jp/v1/json"
 		key := os.Getenv("EKISPERT_API_KEY")
 		e := external.NewExspert(url, key)
 		actual, err := e.GetByName("大森海岸XYZ")
 		assert.ErrorIs(t, err, vo.ErrNotFound)
 		assert.Nil(t, actual)
+	})
+}
+
+func TestExspertGetRoutingURL(t *testing.T) {
+	t.Run("[正常]:本物の公開APIにアクセスして期待通りの結果が返ってくる", func(t *testing.T) {
+		url := "http://api.ekispert.jp/v1/json"
+		key := os.Getenv("EKISPERT_API_KEY")
+		e := external.NewExspert(url, key)
+		actual, err := e.GetRoutingURL("22566", "22567")
+		assert.NoError(t, err)
+		expected := `https://roote.ekispert.net/result?arr=%E5%A4%A7%E6%A3%AE%E6%B5%B7%E5%B2%B8&arr_code=22567&connect=true&dep=%E5%A4%A7%E6%A3%AE(%E6%9D%B1%E4%BA%AC%E9%83%BD)&dep_code=22566&express=true&highway=true&hour&liner=true&local=true&minute&plane=true&shinkansen=true&ship=true&sleep=false&sort=time&surcharge=3&type=dep&via1=&via1_code=&via2=&via2_code=`
+		assert.Equal(t, expected, actual)
+	})
+
+	t.Run("[エラー]:本物の公開APIにアクセスしてデタラメなリクエストを送る", func(t *testing.T) {
+		url := "http://api.ekispert.jp/v1/json"
+		key := os.Getenv("EKISPERT_API_KEY")
+		e := external.NewExspert(url, key)
+		actual, err := e.GetRoutingURL("22566", "22567dummy")
+		assert.Equal(t, "", actual)
+		assert.Error(t, err)
 	})
 }

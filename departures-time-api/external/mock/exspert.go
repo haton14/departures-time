@@ -49,3 +49,18 @@ func (mr *MockExspertMockRecorder) GetByName(name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByName", reflect.TypeOf((*MockExspert)(nil).GetByName), name)
 }
+
+// GetRoutingURL mocks base method.
+func (m *MockExspert) GetRoutingURL(from, to external.StationCode) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetRoutingURL", from, to)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetRoutingURL indicates an expected call of GetRoutingURL.
+func (mr *MockExspertMockRecorder) GetRoutingURL(from, to interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRoutingURL", reflect.TypeOf((*MockExspert)(nil).GetRoutingURL), from, to)
+}

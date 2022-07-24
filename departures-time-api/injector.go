@@ -12,6 +12,7 @@ import (
 type injector struct {
 	nearbyStationsHandler handler.NearbyStations
 	destinationHandler    handler.Destination
+	routeHandler          handler.Route
 }
 
 func NewInjector() injector {
@@ -27,13 +28,16 @@ func NewInjector() injector {
 	// usecase
 	NearbyStationsUsecase := usecase.NewNearbyStations(NearbyStationsRepository, NearbyStationDetailRepository)
 	DestinationUsecase := usecase.NewDistination(DestinationRepository)
+	RouteUsecase := usecase.NewRoute(ExspertExternal)
 
 	// handler
 	NearbyStationsHandler := handler.NewNearbyStations(NearbyStationsUsecase)
 	DestinationHandler := handler.NewDestination(DestinationUsecase)
+	RouteHandler := handler.NewRoute(RouteUsecase)
 
 	return injector{
 		nearbyStationsHandler: NearbyStationsHandler,
 		destinationHandler:    DestinationHandler,
+		routeHandler:          RouteHandler,
 	}
 }

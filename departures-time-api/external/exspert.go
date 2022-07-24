@@ -7,12 +7,14 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"path"
 
 	"github.com/haton14/departures-time/departures-time-api/domain/vo"
 )
 
 type Exspert interface {
 	GetByName(name vo.StationName) ([]ExspertDTO, error)
+	GetRoutingURL(from, to StationCode) (string, error)
 }
 
 type ExspertDTO struct {
@@ -65,6 +67,7 @@ func (e exspert) GetByName(name vo.StationName) ([]ExspertDTO, error) {
 	if err != nil {
 		return nil, err
 	}
+	u.Path = path.Join(u.Path, "station")
 	q := u.Query()
 	q.Add("key", e.apiKey)
 	q.Add("name", name.Value())
@@ -98,4 +101,48 @@ func (e exspert) GetByName(name vo.StationName) ([]ExspertDTO, error) {
 		return nil, vo.ErrNotFound
 	}
 	return bindObjects.ResultSet.Point, nil
+}
+
+type routingURLBindObject struct {
+	ResultSet struct {
+		ResourceURI string `json:"ResourceURI"`
+	} `json:"ResultSet"`
+}
+
+func (e exspert) GetRoutingURL(from, to StationCode) (string, error) {
+	u, err := url.Parse(e.apiPath)
+	if err != nil {
+		return "", err
+	}
+	u.Path = path.Join(u.Path, "search")
+	u.Path = path.Join(u.Path, "course")
+	u.Path = path.Join(u.Path, "light")
+	q := u.Query()
+	q.Add("key", e.apiKey)
+	q.Add("from", from.Value())
+	q.Add("to", to.Value())
+	u.RawQuery = q.Encode()
+	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	if err != nil {
+		return "", fmt.Errorf("NewRequest(): %w", err)
+	}
+	client := new(http.Client)
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("Client.Do(): %w", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return "", errors.New("通信失敗")
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("ReadAll(): %w", err)
+	}
+	bindObject := &routingURLBindObject{}
+	if err = json.Unmarshal(body, bindObject); err != nil {
+		return "", fmt.Errorf("Unmarshal(): %w", err)
+
+	}
+	return bindObject.ResultSet.ResourceURI, nil
 }
