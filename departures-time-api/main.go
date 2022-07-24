@@ -5,14 +5,19 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/haton14/departures-time/departures-time-api/middleware"
+	custom_middleware "github.com/haton14/departures-time/departures-time-api/middleware"
 	"github.com/labstack/echo/v5"
+	"github.com/labstack/echo/v5/middleware"
 )
 
 func main() {
 	log.Println("Stating Server")
 	e := echo.New()
-	e.Validator = middleware.NewValidator()
+	e.Validator = custom_middleware.NewValidator()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet},
+	}))
 	injector := NewInjector()
 
 	// routers
