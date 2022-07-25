@@ -21,6 +21,7 @@ const RouteComponent = (/*props: NearByStationProps*/) => {
   const getRouteURL = async () => {
     if (from === '' || to === '') {
       alert('最寄駅と目的駅は必須');
+      return;
     }
     const api = new StationApi();
     try {
@@ -33,8 +34,8 @@ const RouteComponent = (/*props: NearByStationProps*/) => {
   if (routeURL === '') {
     return (
       <>
-        <NearByStationComponent onChange={onChangeFrom} />
-        <DestinationComponent onChange={onChangeTo} />
+        <NearByStationComponent onChange={onChangeFrom} from={from} />
+        <DestinationComponent onChange={onChangeTo} to={to} />
         <button onClick={getRouteURL}>経路探索URL生成</button>
       </>
     );

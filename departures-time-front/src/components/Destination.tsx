@@ -3,6 +3,7 @@ import type { Destination } from '../api/api';
 import { StationApi } from '../api/api';
 
 interface DestinationProps {
+  to: string;
   onChange: (e: any) => void;
 }
 
@@ -35,7 +36,8 @@ const DestinationComponent = (props: DestinationProps) => {
     );
   }
   return (
-    <select onChange={props.onChange}>
+    <select onChange={props.onChange} value={props.to}>
+      <option value="">目的駅を選択してください</option>
       {destinations.map((station) => (
         <option key={station.code} value={station.code}>
           {station.name}

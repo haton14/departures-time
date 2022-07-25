@@ -4,6 +4,7 @@ import { StationApi } from '../api/api';
 
 interface NearByStationProps {
   onChange: (e: any) => void;
+  from: string;
 }
 
 const NearByStationComponent = (props: NearByStationProps) => {
@@ -18,6 +19,7 @@ const NearByStationComponent = (props: NearByStationProps) => {
   const getNearbyStations = async () => {
     const s = await getCurrentPosition();
     if (s !== undefined) {
+      console.log(s.coords);
       const api = new StationApi();
       try {
         const stations = await api.getV1NearbyStations(s.coords.longitude, s.coords.latitude);
@@ -36,7 +38,8 @@ const NearByStationComponent = (props: NearByStationProps) => {
     );
   }
   return (
-    <select onChange={props.onChange}>
+    <select onChange={props.onChange} value={props.from}>
+      <option value="">最寄駅を選択してください</option>
       {nearByStations.map((station) => (
         <option key={station.code} value={station.code}>
           {station.name} {station.distance}m
