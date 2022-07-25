@@ -6,7 +6,6 @@ on:
       - main
     types:
       - closed
-      - opened
     paths:
       - "departures-time-api/Dockerfile"
       - "departures-time-api/go.mod"
