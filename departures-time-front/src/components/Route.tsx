@@ -19,17 +19,16 @@ const RouteComponent = (/*props: NearByStationProps*/) => {
   };
 
   const getRouteURL = async () => {
-    if (from === '' && to === '') {
-      // エラー処理は省略
-      return;
+    if (from === '' || to === '') {
+      alert('最寄駅と目的駅は必須');
     }
     const api = new StationApi();
-    const url = await api.getV1Routes(from, to);
-    if (url.status !== 200) {
-      // エラー処理は省略
-      return;
+    try {
+      const url = await api.getV1Routes(from, to);
+      setRouteURL(url.data.url);
+    } catch (e: any) {
+      alert(e.response.data.message);
     }
-    setRouteURL(url.data.url);
   };
   if (routeURL === '') {
     return (
