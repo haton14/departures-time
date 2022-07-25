@@ -1,0 +1,49 @@
+name: CD for API
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+    paths:
+      - "departures-time-api/Dockerfile"
+      - "departures-time-api/go.mod"
+      - "departures-time-api/go.sum"
+      - "departures-time-api/**.go"
+      - ".github/workflows/api-cd.yml"
+env:
+  ECR_REPOSITORY: dev-departures-time-api
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+  TAG: ${{ github.sha }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ap-northeast-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to AmazonECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          cd ./departures-time-api
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest . -f Dockerfile
+          docker push --all-tags $ECR_REGISTRY/$ECR_REPOSITORY
