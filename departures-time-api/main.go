@@ -25,6 +25,15 @@ func main() {
 	v1.GET("/nearby-stations", injector.nearbyStationsHandler.Get)
 	v1.GET("/destinations", injector.destinationHandler.Get)
 	v1.GET("/routes", injector.routeHandler.Get)
+	e.GET("/", func(c echo.Context) error {
+		type health struct {
+			Status string `json:"status"`
+		}
+		h := health{
+			Status: "ok",
+		}
+		return c.JSON(http.StatusOK, h)
+	})
 
 	port := os.Getenv("PORT")
 	if port == "" {
