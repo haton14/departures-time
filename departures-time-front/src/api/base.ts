@@ -18,7 +18,7 @@ import type { Configuration } from "./configuration";
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 
-export const BASE_PATH = "http://EC2Co-EcsEl-V0L5YWNP8KY8-1887854045.ap-northeast-1.elb.amazonaws.com".replace(/\/+$/, "");
+export const BASE_PATH = "https://departures-time-api.ohagi.link".replace(/\/+$/, "");
 
 /**
  *
