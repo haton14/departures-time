@@ -1,5 +1,4 @@
-# 現在地の最寄駅を選択し、目的駅までの経路探索結果を生成する
-
+# Departures Time Front
 ## 技術について
 geolocationを使用して現在地を取得しています
 ### 使用したもの
@@ -7,6 +6,7 @@ geolocationを使用して現在地を取得しています
 - React v18 (業務で使用したことなくジュニアレベルです)
 - TypeScript v4.6 (業務で多少書いたことがあるレベルです)
 - [openapi-generator](https://github.com/OpenAPITools/openapi-generator) (API通信のクライアント生成に使用)
+- @tsconfig/strictest/tsconfig.json (TypeScriptの型制約を厳しくするためテンプレとして使用していいます)
 #### インフラ
 - [Vercel](https://vercel.com/)
 
