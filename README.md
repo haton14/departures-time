@@ -1,6 +1,11 @@
 # Departures Time
 [Uber社のコーディングチャレンジ](https://github.com/uber-archive/coding-challenge-tools)を実装したもの
 
+## 利用させて頂いている公開API(クレジット)
+[NeaREST](https://station.ic731.net/docs/near)
+[駅すぱあとWebサービス](https://docs.ekispert.com/v1/le/index.html)
+
+
 ## 概要
 バックエンドを中心に実装しました。
 本来ならばフォーマットした公開データをDBに取り込み独自にデータを持つのがベストですが、時間がないため公開APIから駅データを取得するようにしています。
