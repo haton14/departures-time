@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
       target: dev
     ports:
-      - 8080:80
+      - 8000:8000
     command: sleep infinity
     working_dir: /go/src/work
     volumes:
@@ -16,3 +16,5 @@ services:
     tty: true
     environment:
       - NEA_REST_API_PATH=https://station.ic731.net/api/nearest
+      - EKISPERT_API_PATH=http://api.ekispert.jp/v1/json/
+      - EKISPERT_API_KEY=<your api key>
