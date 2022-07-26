@@ -35,6 +35,7 @@ const RouteComponent = (/*props: NearByStationProps*/) => {
     return (
       <>
         <NearByStationComponent onChange={onChangeFrom} from={from} />
+        <br />
         <DestinationComponent onChange={onChangeTo} to={to} />
         <button onClick={getRouteURL}>経路探索URL生成</button>
       </>
