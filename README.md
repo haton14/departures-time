@@ -51,7 +51,7 @@
 - カバレッジ出力
   - `go test ./... -coverprofile cover.out && go tool cover -html=cover.out`
 
-## Frount用のAPIクライアントを生成する
+## Front用のAPIクライアントを生成する
 - [openapi-generator](https://github.com/OpenAPITools/openapi-generator)をnpmでインストールする
 - `cd departures-time-front`
 - `openapi-generator-cli generate -g typescript-axios -i ../reference/departures-time-open-api.yaml -o ./src/api`
