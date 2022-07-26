@@ -8,7 +8,7 @@
 - [echo v5](https://echo.labstack.com/v5/guide/) (普段はv4を使用しています)
 - [gomock](https://github.com/golang/mock) (普段からunit testを書くのに使用しています)
 - [testify](https://github.com/stretchr/testify) (普段から使用しています)
-#### インフラ
+#### インフラ(AWS)
 - ECS Fargate (API実行環境)
 - Route 53 (SSL証明書発行&ドメイン設定)
 - ALB (本来の用途に加えSSL証明書を簡単につけるため)
