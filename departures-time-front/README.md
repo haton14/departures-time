@@ -6,7 +6,7 @@ geolocationを使用して現在地を取得しています
 - React v18 (業務で使用したことなくジュニアレベルです)
 - TypeScript v4.6 (業務で多少書いたことがあるレベルです)
 - [openapi-generator](https://github.com/OpenAPITools/openapi-generator) (API通信のクライアント生成に使用)
-- @tsconfig/strictest/tsconfig.json (TypeScriptの型制約を厳しくするためテンプレとして使用していいます)
+- @tsconfig/strictest/tsconfig.json (TypeScriptの型制約を厳しくするためのテンプレとして使用しています)
 #### インフラ
 - [Vercel](https://vercel.com/)
 
