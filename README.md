@@ -2,15 +2,14 @@
 [Uber社のコーディングチャレンジ](https://github.com/uber-archive/coding-challenge-tools)を実装したもの
 - [front demo](https://departures-time.vercel.app)
 - [backend demo](https://departures-time-api.ohagi.link/)
-
+  - 叩き方は`reference/departures-time-open-api.yaml`(OpenAPIドキュメント)を参照してください
+    - [Swgger Editer](https://editor.swagger.io/)などに貼り付ければ見れます
 ## 利用させて頂いている公開API(クレジット)
 - [NeaREST](https://station.ic731.net/docs/near)
 - [駅すぱあとWebサービス](https://docs.ekispert.com/v1/le/index.html)
 
-
-
 ## 概要
-バックエンドを中心に実装しました。
+バックエンドを中心に実装しました。現在地から最寄駅一覧を取得し、目的地駅を名前から検索し選択した上で、経路探索結果URLを生成します。
 
 
 本来ならばフォーマットした公開データをDBに取り込み独自にデータを持つのがベストですが、時間がないため公開APIから駅データを取得するようにしています。
@@ -20,7 +19,7 @@
 
 
 ## 技術や改善点について
-departures-time-api,departures-time-front配下のREADMEに記述しています
+`departures-time-api`, `departures-time-front`配下のREADMEに記述しています
 
 ## 要件
 - Node.js >= v16.14.2
@@ -59,5 +58,3 @@ departures-time-api,departures-time-front配下のREADMEに記述しています
    - 一部エラーが出るので手動で直します
 
 
-## OpenAPIドキュメント(swagger)
-`reference/departures-time-open-api.yaml`を参照してください
