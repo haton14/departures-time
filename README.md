@@ -18,6 +18,10 @@
 
 経路探索結果のデータそのものを提供してくれているAPIは有料であったたため、外部サービスの探索結果のURLを返すようにしています。
 
+
+## 技術や改善点について
+departures-time-api,departures-time-front配下のREADMEに記述しています
+
 ## 要件
 - Node.js >= v16.14.2
 - Docker Desktop >= 4.9.1
@@ -54,4 +58,6 @@
 - `openapi-generator-cli generate -g typescript-axios -i ../reference/departures-time-open-api.yaml -o ./src/api`
    - 一部エラーが出るので手動で直します
 
-#
+
+## OpenAPIドキュメント(swagger)
+`reference/departures-time-open-api.yaml`を参照してください
