@@ -2,6 +2,7 @@
 [Uber社のコーディングチャレンジ](https://github.com/uber-archive/coding-challenge-tools)を実装したもの
 - [front demo](https://departures-time.vercel.app)
 - [backend demo](https://departures-time-api.ohagi.link/)
+  - お金かかるので停止中。動かしたい場合は`iioka.takumi.quena@gmail.com`までご連絡ください。
   - 叩き方は`reference/departures-time-open-api.yaml`(OpenAPIドキュメント)を参照してください
     - [Swgger Editer](https://editor.swagger.io/)などに貼り付ければ見れます
 ## 利用させて頂いている公開API(クレジット)
